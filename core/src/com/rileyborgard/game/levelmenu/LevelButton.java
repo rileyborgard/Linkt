@@ -1,5 +1,6 @@
 package com.rileyborgard.game.levelmenu;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,6 +15,7 @@ import com.rileyborgard.game.object.ButtonAction;
 
 public class LevelButton extends Button {
 
+    private int pack;
     private int level;
     private GlyphLayout layout;
     private BitmapFont font;
@@ -28,7 +30,15 @@ public class LevelButton extends Button {
     @Override
     public void draw(GameManager gm) {
         gm.sr.begin(ShapeRenderer.ShapeType.Filled);
-        gm.sr.setColor(0, 0.625f, 0.875f, 1f);
+        if(!isUnlocked(gm)) {
+            gm.sr.setColor(Color.GRAY);
+        } else if (pack == 0) {
+            gm.sr.setColor(Color.ORANGE);
+        } else if (gm.isSolved(pack, level)) {
+            gm.sr.setColor(Color.GREEN);
+        } else {
+            gm.sr.setColor(Color.RED);
+        }
         gm.sr.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         gm.sr.end();
 
@@ -36,6 +46,14 @@ public class LevelButton extends Button {
         font.draw(gm.sb, layout, bounds.x + bounds.width / 2 - layout.width / 2,
                 bounds.y + bounds.height / 2 + layout.height / 2);
         gm.sb.end();
+    }
+
+    public boolean isUnlocked(GameManager gm) {
+        return pack > 0 || gm.isPackUnlocked(level);
+    }
+
+    public void setPack(int pack) {
+        this.pack = pack;
     }
 
 }

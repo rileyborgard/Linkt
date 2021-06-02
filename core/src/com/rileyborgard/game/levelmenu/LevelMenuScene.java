@@ -1,17 +1,13 @@
 package com.rileyborgard.game.levelmenu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.rileyborgard.game.Constants;
 import com.rileyborgard.game.GameManager;
 import com.rileyborgard.game.Scene;
 import com.rileyborgard.game.object.Button;
 import com.rileyborgard.game.object.ButtonAction;
-import com.rileyborgard.game.object.ImageButton;
 
 import java.util.ArrayList;
 
@@ -21,7 +17,10 @@ import java.util.ArrayList;
 
 public class LevelMenuScene extends Scene {
 
-    ArrayList<Button> buttons;
+    ArrayList<LevelButton> levelButtons;
+    ArrayList<LevelButton> packButtons;
+    //0 if displaying all packs. Otherwise, it shows levels within the pack-th pack
+    private int pack;
 
     public LevelMenuScene(final GameManager gm) {
         super(gm);
@@ -30,30 +29,52 @@ public class LevelMenuScene extends Scene {
         int r = Constants.LEVELS_PER_ROW;
         int c = Constants.LEVELS_PER_COLUMN;
         int m = Constants.LEVEL_BUTTON_MARGIN;
-        buttons = new ArrayList<Button>();
-        for(int i = 0; i < Constants.LEVELS; i++) {
+
+        levelButtons = new ArrayList<LevelButton>();
+        for (int i = 0; i < Constants.LEVELS; i++) {
             final int idx = i;
-            buttons.add(new LevelButton(gm.font, idx + 1,
+            levelButtons.add(new LevelButton(gm.font, idx + 1,
                     new Rectangle((idx % r) * (w / r) + m, h - (idx / r + 1) * (h / c) + m, w / r - 2 * m, h / c - 2 * m),
                     new ButtonAction() {
                         public void run() {
                             gm.setScene(gm.gameScene);
-                            gm.gameScene.load(idx + 1);
+                            gm.gameScene.load(pack, idx + 1);
                         }
                     }));
+        }
+        packButtons = new ArrayList<LevelButton>();
+        for(int i = 0; i < Constants.PACKS; i++) {
+            final int idx = i;
+            packButtons.add(new LevelButton(gm.font, idx + 1,
+                    new Rectangle((idx % r) * (w / r) + m, h - (idx / r + 1) * (h / c) + m, w / r - 2 * m, h / c - 2 * m),
+                    new ButtonAction() {
+                        public void run() {
+                            setPack(idx + 1);
+                        }
+                    }));
+        }
+        for(LevelButton btn : packButtons) {
+            btn.setPack(0);
         }
     }
 
     @Override
     public void init() {
         super.init();
+        setPack(0);
         Gdx.gl.glClearColor(0, 0, 0, 1);
     }
 
     @Override
     public void render() {
-        for(Button button : buttons) {
-            button.draw(gm);
+        if(pack > 0) {
+            for (Button button : levelButtons) {
+                button.draw(gm);
+            }
+        }else {
+            for(Button button : packButtons) {
+                button.draw(gm);
+            }
         }
     }
 
@@ -62,9 +83,23 @@ public class LevelMenuScene extends Scene {
 
     }
 
+    public void setPack(int pack) {
+        this.pack = pack;
+        for(LevelButton btn : levelButtons) {
+            btn.setPack(pack);
+        }
+    }
+
     //input methods
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.BACK) {
+            if(pack == 0) {
+                gm.setScene(gm.menuScene);
+            }else {
+                setPack(0);
+            }
+        }
         return false;
     }
 
@@ -81,9 +116,17 @@ public class LevelMenuScene extends Scene {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int btn) {
         screenY = Constants.HEIGHT - screenY;
-        for(Button button : buttons) {
-            if(button.click(screenX, screenY)) {
-                break;
+        if(pack > 0) {
+            for (Button button : levelButtons) {
+                if (button.click(screenX, screenY)) {
+                    break;
+                }
+            }
+        }else {
+            for (LevelButton button : packButtons) {
+                if(button.isUnlocked(gm) && button.click(screenX, screenY)) {
+                    break;
+                }
             }
         }
         return false;

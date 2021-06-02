@@ -19,6 +19,7 @@ public abstract class Scene implements InputProcessor {
 
     public void init() {
         Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
     }
 
     public abstract void render();

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="11" height="11" tilewidth="16" tileheight="16" nextobjectid="2">
+ <tileset firstgid="1" source="../Tiles.tsx"/>
+ <layer name="Layer1" width="11" height="11">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,5,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,5,5,5,5,1,5,5,5,5,1,
+1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <layer name="Layer2" width="11" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,4,0,0,9,0,0,3,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Tutorial">
+  <object id="1" x="7.66667" y="5.33333">
+   <properties>
+    <property name="text" value="Crates can be pushed."/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

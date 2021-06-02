@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LinktGDX</string>
+    <string name="app_name">Linkt</string>
+    <item type="id" name="adViewId"/>
 
 </resources>

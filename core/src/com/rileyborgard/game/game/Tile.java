@@ -58,11 +58,6 @@ public class Tile {
         int drawX = boardX + Constants.TILE_SIZE * x;
         int drawY = boardY + Constants.TILE_SIZE * y;
 
-        int code = (drawOutline[Constants.LEFT] ? 1 : 0) * 8 +
-                    (drawOutline[Constants.RIGHT] ? 1 : 0) * 4 +
-                    (drawOutline[Constants.DOWN] ? 1 : 0) * 2 +
-                    (drawOutline[Constants.UP] ? 1 : 0);
-
 //        gm.sb.begin();
 //        gm.sb.setColor(Color.WHITE);
 //        if(type == WALL)
@@ -189,14 +184,14 @@ public class Tile {
             }
         }
 
-//        center circle
+        //center circle
         if(fixed) {
             gm.sr.setColor(outlineColor);
-            gm.sr.circle(drawX + Constants.TILE_SIZE / 2, drawY + Constants.TILE_SIZE / 2, Constants.TILE_SIZE / 4 + Constants.OUTLINE_SIZE);
+            gm.sr.circle(drawX + Constants.TILE_SIZE / 2, drawY + Constants.TILE_SIZE / 2, Constants.FIXED_SIZE + Constants.OUTLINE_SIZE);
             gm.sr.setColor(Constants.outlineColor[WALL]);
-            gm.sr.circle(drawX + Constants.TILE_SIZE / 2, drawY + Constants.TILE_SIZE / 2, Constants.TILE_SIZE / 4);
+            gm.sr.circle(drawX + Constants.TILE_SIZE / 2, drawY + Constants.TILE_SIZE / 2, Constants.FIXED_SIZE);
             gm.sr.setColor(Constants.color[WALL]);
-            gm.sr.circle(drawX + Constants.TILE_SIZE / 2, drawY + Constants.TILE_SIZE / 2, Constants.TILE_SIZE / 4 - Constants.OUTLINE_SIZE);
+            gm.sr.circle(drawX + Constants.TILE_SIZE / 2, drawY + Constants.TILE_SIZE / 2, Constants.FIXED_SIZE - Constants.OUTLINE_SIZE);
         }
 
         gm.sr.end();
